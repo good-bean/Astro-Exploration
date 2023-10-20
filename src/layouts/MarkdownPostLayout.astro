@@ -1,0 +1,43 @@
+---
+import BaseLayout from './BaseLayout.astro';
+const { frontmatter } = Astro.props;
+---
+<style>
+  h3 {
+    margin: 0.5rem 0;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .tag {
+    padding: 0.75rem 1rem;
+    color: black;
+    text-decoration: none;
+    background-color: lightgray;
+    border-radius: 5px;
+    transition: background-color .25s, color .25s;
+  }
+
+  .tag:hover {
+    background-color: rgb(194, 193, 193);
+  }
+</style>
+<BaseLayout pageTitle={frontmatter.title}>
+  <p>Published on: {frontmatter.pubDate.slice(0,10)}</p>
+  <p>Written by {frontmatter.author}</p>
+  <p><em>{frontmatter.description}</em></p>
+  <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
+  <slot />
+  <aside>
+    <h3>Tags:</h3>
+    <div class="tags">
+      {frontmatter.tags.map((tag) => (
+        <p><a class="tag" href={`/tags/${tag}`}>{tag}</a></p>
+      ))}
+    </div>
+  </aside>
+</BaseLayout>
